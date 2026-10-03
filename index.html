@@ -18,6 +18,7 @@
   --ink:#6424B8; --text:#210F33; --muted:#6B5783; --tape:rgba(186,140,255,.55); --glit:#B98CFF;
   --out:#D4287A; --in:#157A57; --outbg:#FCE3EC; --inbg:#DDF3EA;
   --shadow:#23142F;
+  --sav:#9A5B00; --savbg:#FBEED5;
   --font:"Bricolage Grotesque", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --marker:"Permanent Marker", "Marker Felt", "Comic Sans MS", cursive;
   box-sizing:border-box;
@@ -31,6 +32,7 @@
     --ink:#CFA6FF; --text:#F1E8FA; --muted:#A897BC;
     --out:#FF6E9F; --in:#5FD3A5; --outbg:#43172B; --inbg:#133529;
     --shadow:#000000;
+    --sav:#F2B84B; --savbg:#3A2A0E;
   }
 }
 :root[data-theme="dark"]{
@@ -38,6 +40,7 @@
   --ink:#CFA6FF; --text:#F1E8FA; --muted:#A897BC;
   --out:#FF6E9F; --in:#5FD3A5; --outbg:#43172B; --inbg:#133529;
   --shadow:#000000;
+  --sav:#F2B84B; --savbg:#3A2A0E;
 }
 *,*::before,*::after{box-sizing:inherit}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
@@ -76,19 +79,25 @@ button{cursor:pointer}
 .doodle{position:absolute; pointer-events:none; color:var(--ink)}
 .doodle.a{right:2px; top:-18px; width:60px; transform:rotate(12deg)}
 .doodle.b{right:58px; top:44px; width:26px; color:var(--out); transform:rotate(-10deg)}
-.split{display:flex; gap:20px; margin:22px 4px 0; font-size:1rem}
+.split{display:flex; flex-wrap:wrap; gap:8px 20px; margin:22px 4px 0; font-size:1rem}
 .split b{font-weight:700}
-.in{color:var(--in)} .out{color:var(--out)}
+.in{color:var(--in)} .out{color:var(--out)} .sav{color:var(--sav)}
 
 /* Formulario */
 .sheet{position:relative; background:var(--card); border:2px solid var(--text); border-radius:16px; padding:16px; margin-top:26px; box-shadow:4px 4px 0 var(--shadow)}
 .sheet::before{content:""; position:absolute; top:-13px; left:50%; width:96px; height:24px; background:var(--tape); transform:translateX(-50%) rotate(-4deg); border-radius:2px}
-.sheet h2, section.block h2{font-family:var(--marker); font-weight:400; font-size:1.3rem; margin:0 0 12px; color:var(--ink)}
+.sheet h2, section.block h2, .piggy h2{font-family:var(--marker); font-weight:400; font-size:1.3rem; margin:0 0 12px; color:var(--ink)}
 .toggle{display:grid; grid-template-columns:1fr 1fr; border:2px solid var(--text); border-radius:12px; overflow:hidden}
 .toggle button{border:0; background:transparent; padding:10px; font-weight:700; color:var(--muted)}
 .toggle button + button{border-left:2px solid var(--text)}
 .toggle button[aria-pressed="true"].g{background:var(--outbg); color:var(--out)}
 .toggle button[aria-pressed="true"].i{background:var(--inbg); color:var(--in)}
+.toggle button[aria-pressed="true"].a{background:var(--savbg); color:var(--sav)}
+.toggle.t3{grid-template-columns:repeat(3,1fr)}
+.subtoggle{margin-top:10px; border-color:var(--sav)}
+.subtoggle button{padding:7px; font-size:.92rem}
+.subtoggle button + button{border-left-color:var(--sav)}
+.subtoggle button[aria-pressed="true"]{background:var(--savbg); color:var(--sav)}
 .amount{display:flex; align-items:baseline; gap:6px; margin:16px 0 4px; border-bottom:3px solid var(--line); padding-bottom:4px}
 .amount span{font-size:1.8rem; color:var(--muted); font-weight:700}
 .amount input{border:0; background:transparent; font-size:2.1rem; font-weight:800; width:100%; padding:0; outline:none; min-width:0}
@@ -107,6 +116,8 @@ button{cursor:pointer}
 .chip:nth-child(3n+1){transform:rotate(-1.5deg)} .chip:nth-child(3n+2){transform:rotate(1.2deg)}
 .chip[aria-pressed="true"]{background:var(--ink); border-color:var(--ink); color:var(--card); box-shadow:2px 2px 0 var(--shadow)}
 .chip.add{border-style:dashed; color:var(--muted); transform:none}
+.chipgroup + .chipgroup{margin-top:14px}
+.chipgroup .gl{font-size:.88rem; font-weight:700; color:var(--muted); margin-bottom:7px}
 .newcat{display:none; gap:8px; margin-top:10px}
 .newcat.show{display:flex}
 .newcat input{flex:1; border:2px solid var(--line); border-radius:10px; padding:8px 12px; background:var(--paper)}
@@ -126,6 +137,21 @@ section.block{margin-top:30px}
 .cat .row small{color:var(--muted)}
 .bar{height:10px; background:var(--soft); border-radius:6px; margin-top:5px; overflow:hidden; border:1.5px solid var(--line)}
 .bar i{display:block; height:100%; background:var(--out); border-radius:4px}
+.bar i.f{background:var(--ink)}
+.grp{display:flex; justify-content:space-between; align-items:baseline; gap:10px; font-family:var(--marker); font-size:1.08rem; color:var(--muted); margin:20px 0 8px}
+.grp:first-child{margin-top:0}
+.grp b{font-family:var(--font); font-weight:800; font-size:1rem; color:var(--text)}
+
+/* Ahorros */
+.piggy{position:relative; margin-top:30px; background:var(--card); border:2px solid var(--text); border-radius:16px; padding:16px; box-shadow:4px 4px 0 var(--sav)}
+.piggy .lbl{font-size:.92rem; color:var(--muted)}
+.piggy .num{font-size:clamp(2rem,9vw,2.6rem); font-weight:800; letter-spacing:-.02em; line-height:1.1; color:var(--sav); font-variation-settings:"opsz" 96}
+.piggy .num.neg{color:var(--out)}
+.piggy .q{margin-top:6px; font-size:.95rem}
+.piggy .pockets{margin-top:12px; border-top:2px dotted var(--line); padding-top:6px}
+.piggy .pk{display:flex; justify-content:space-between; gap:10px; padding:5px 0; font-size:.95rem}
+.piggy .pk b{font-weight:700}
+.savbtn{width:100%; margin-top:14px; border:2px dashed var(--sav); background:transparent; color:var(--sav); border-radius:12px; padding:12px; font-weight:700}
 
 /* Movimientos */
 .day{font-family:var(--marker); font-size:1rem; color:var(--muted); margin:18px 0 4px; text-transform:capitalize}
@@ -134,6 +160,7 @@ section.block{margin-top:30px}
 .mov .what b{display:block; font-weight:700; font-size:.98rem}
 .mov .what small{display:block; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
 .mov .amt{font-weight:800; white-space:nowrap}
+.mov .tag{font-style:normal; font-weight:600; font-size:.75rem; color:var(--muted); border:1.5px solid var(--line); border-radius:999px; padding:0 7px; margin-left:6px; vertical-align:2px}
 .mov.editing{background:var(--soft); border-radius:8px}
 .empty{color:var(--muted); padding:14px 0}
 
@@ -148,6 +175,8 @@ section.block{margin-top:30px}
 .catedit input{flex:1; min-width:0; border:2px solid var(--line); border-radius:10px; padding:8px 10px; background:var(--paper)}
 .catedit .x{width:44px; border:2px solid var(--out); color:var(--out); background:transparent; border-radius:10px; font-size:1.2rem; font-weight:700}
 .catedit small{display:block; color:var(--muted)}
+.catedit .gbtn{min-width:86px; border:2px solid var(--line); background:transparent; color:var(--muted); border-radius:10px; padding:0 8px; font-weight:700; font-size:.85rem}
+.catedit .gbtn.f{border-color:var(--ink); color:var(--ink)}
 .love{margin:36px 0 8px; text-align:center; font-family:var(--marker); font-size:1.25rem; color:var(--out); transform:rotate(-2deg)}
 .status{font-size:.85rem; color:var(--muted); margin-top:14px}
 
@@ -184,22 +213,28 @@ section.block{margin-top:30px}
     <div class="split">
       <span>Entró <b class="in" id="sumIn">$ 0</b></span>
       <span>Salió <b class="out" id="sumOut">$ 0</b></span>
+      <span>Ahorró <b class="sav" id="sumSav">$ 0</b></span>
     </div>
   </div>
 
   <form class="sheet" id="form" onsubmit="return false">
     <h2 id="formTitle">Anotar movimiento</h2>
-    <div class="toggle" role="group" aria-label="Tipo">
+    <div class="toggle t3" id="typeToggle" role="group" aria-label="Tipo">
       <button type="button" class="g" data-type="g" aria-pressed="true">Gasto</button>
       <button type="button" class="i" data-type="i" aria-pressed="false">Ingreso</button>
+      <button type="button" class="a" data-type="a" aria-pressed="false">Ahorro</button>
+    </div>
+    <div class="toggle subtoggle hidden" id="akind" role="group" aria-label="Qué hacer con el ahorro">
+      <button type="button" data-k="d" aria-pressed="true">Guardar</button>
+      <button type="button" data-k="r" aria-pressed="false">Sacar</button>
     </div>
     <div class="amount">
       <span>$</span>
       <input id="amount" inputmode="numeric" autocomplete="off" placeholder="0" aria-label="Monto">
     </div>
     <div class="field">
-      <label>Categoría</label>
-      <div class="chips" id="chips"></div>
+      <label id="catLabel">Categoría</label>
+      <div id="chips"></div>
       <div class="newcat" id="newcat">
         <input id="newcatInput" type="text" placeholder="Nombre de la categoría" maxlength="24">
         <button type="button" id="newcatAdd">Agregar</button>
@@ -222,6 +257,15 @@ section.block{margin-top:30px}
     </div>
   </form>
 
+  <section class="piggy" id="savBlock" aria-labelledby="savTitle">
+    <h2 id="savTitle">Mis ahorros</h2>
+    <div class="lbl" id="savLbl">Llevas ahorrado</div>
+    <div class="num" id="savTotal">$ 0</div>
+    <div class="q" id="savQ"></div>
+    <div class="pockets hidden" id="savPockets"></div>
+    <button type="button" class="savbtn" id="savAdd">Guardar plata en ahorros</button>
+  </section>
+
   <section class="block" id="catsBlock">
     <h2>A dónde se fue la plata</h2>
     <div id="cats"></div>
@@ -234,7 +278,7 @@ section.block{margin-top:30px}
 
   <div class="export">
     <button type="button" class="primary" id="export" style="width:100%">Exportar todo a Excel</button>
-    <p id="exportNote">Descarga un .xlsx con todos tus movimientos, un resumen por quincena y los gastos por categoría.</p>
+    <p id="exportNote">Descarga un .xlsx con todos tus movimientos, un resumen por quincena, los gastos fijos y variables por categoría y tus ahorros.</p>
     <button type="button" class="secondary" id="importBtn">Importar desde Excel</button>
     <input type="file" id="importFile" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" class="hidden">
     <p>Sirve para recuperar tus datos desde un Excel que hayas exportado antes. No duplica lo que ya está anotado.</p>
@@ -249,13 +293,15 @@ section.block{margin-top:30px}
 (function(){
   const DEFAULT_CATS = {
     g:["Comida","Transporte","Universidad","Arriendo","Servicios","Salidas","Compras","Salud","Otros"],
-    i:["Mesada","Trabajo","Beca","Otros"]
+    i:["Mesada","Trabajo","Beca","Otros"],
+    a:["Emergencias","Viajes","General"]
   };
+  const DEFAULT_FIJOS = ["Arriendo","Servicios","Universidad"];
   const LS = "finanzas-v1";
   const MES = ["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];
   const now = new Date();
-  const state = { months:{}, cats:JSON.parse(JSON.stringify(DEFAULT_CATS)),
-    period:{ m:ym(now), h: now.getDate()<=15?1:2 }, type:"g", cat:null, editing:null };
+  const state = { months:{}, cats:Object.assign(JSON.parse(JSON.stringify(DEFAULT_CATS)),{fijos:DEFAULT_FIJOS.slice()}),
+    period:{ m:ym(now), h: now.getDate()<=15?1:2 }, type:"g", cat:null, editing:null, akind:"d", newGroup:"v" };
   
 
   const $ = s => document.querySelector(s);
@@ -268,6 +314,21 @@ section.block{margin-top:30px}
   function lastDay(m){ const [y,mo]=m.split("-").map(Number); return new Date(y,mo,0).getDate(); }
   function periodLabel(m,h){ const mo=MES[Number(m.slice(5,7))-1]; return (h===1?"1–15 ":"16–"+lastDay(m)+" ")+mo+" "+m.slice(0,4); }
   function periodItems(m,h){ return (state.months[m]||[]).filter(x=>halfOf(x.f)===h); }
+  function periodEnd(m,h){ return m+"-"+(h===1?"15":String(lastDay(m)).padStart(2,"0")); }
+  function allItems(){ return Object.values(state.months).flat(); }
+  const isFixed = c => state.cats.fijos.includes(c);
+  const savDelta = x => x.k==="r" ? -x.m : x.m;
+  function sumBy(arr,fn){ return arr.reduce((s,x)=>s+fn(x),0); }
+  // Saldo por bolsillo de ahorro, opcionalmente hasta una fecha y sin contar un movimiento
+  function pocketTotals(upTo, excludeId){
+    const by={};
+    allItems().forEach(x=>{
+      if(x.t!=="a" || x.id===excludeId || (upTo && x.f>upTo)) return;
+      by[x.c]=(by[x.c]||0)+savDelta(x);
+    });
+    return by;
+  }
+  function tipoLabel(x){ return x.t==="i"?"Ingreso":x.t==="g"?"Gasto":(x.k==="r"?"Retiro de ahorro":"Ahorro"); }
 
   let toastT;
   function toast(msg){ const t=$("#toast"); t.textContent=msg; t.classList.add("show"); clearTimeout(toastT); toastT=setTimeout(()=>t.classList.remove("show"),2600); }
@@ -294,10 +355,19 @@ section.block{margin-top:30px}
       const x=document.createElement("button"); x.type="button"; x.className="x"; x.textContent="×";
       x.setAttribute("aria-label","Eliminar categoría "+c);
       x.addEventListener("click",()=>deleteCat(idx));
-      r.append(inp,x); box.appendChild(r);
+      r.appendChild(inp);
+      if(state.type==="g"){
+        const fx=isFixed(c);
+        const gb=document.createElement("button"); gb.type="button"; gb.className="gbtn"+(fx?" f":"");
+        gb.textContent=fx?"Fijo":"Variable";
+        gb.setAttribute("aria-label",c+" es un gasto "+(fx?"fijo":"variable")+". Cambiar a "+(fx?"variable":"fijo"));
+        gb.addEventListener("click",()=>toggleGroup(c));
+        r.appendChild(gb);
+      }
+      r.appendChild(x); box.appendChild(r);
     });
     const n=document.createElement("small");
-    n.textContent="Al renombrar, también se actualizan los movimientos anotados. Al eliminar, los movimientos ya anotados conservan su categoría.";
+    n.textContent=(state.type==="g"?"Toca Fijo o Variable para cambiar el grupo de una categoría. ":"")+"Al renombrar, también se actualizan los movimientos anotados. Al eliminar, los movimientos ya anotados conservan su categoría.";
     box.appendChild(n);
   }
   function renameCat(idx,inp){
@@ -306,10 +376,17 @@ section.block{margin-top:30px}
     if(name===old) return;
     if(list.some((c,i)=>i!==idx && c.toLowerCase()===name.toLowerCase())){ toast("Ya existe esa categoría"); inp.value=old; return; }
     list[idx]=name;
+    if(state.type==="g"){ const fi=state.cats.fijos.indexOf(old); if(fi>=0) state.cats.fijos[fi]=name; }
     Object.values(state.months).forEach(items=>items.forEach(x=>{ if(x.t===state.type && x.c===old) x.c=name; }));
     if(state.cat===old) state.cat=name;
     if(state.editing && state.editing.c===old) state.editing.c=name;
     persist(); renderForm(); render(); toast("Categoría renombrada");
+  }
+  function toggleGroup(c){
+    const f=state.cats.fijos, i=f.indexOf(c);
+    if(i>=0) f.splice(i,1); else f.push(c);
+    persist(); renderForm(); render();
+    toast(c+" ahora es un gasto "+(i>=0?"variable":"fijo"));
   }
   function deleteCat(idx){
     const list=state.cats[state.type];
@@ -336,21 +413,31 @@ section.block{margin-top:30px}
       const rows=XLSX.utils.sheet_to_json(ws,{header:1,raw:true});
       const head=(rows[0]||[]).map(h=>String(h||"").trim().toLowerCase());
       const col=n=>head.indexOf(n);
-      const iF=col("fecha"), iT=col("tipo"), iC=col("categoría"), iD=col("descripción"), iI=col("ingreso"), iG=col("gasto");
+      const iF=col("fecha"), iT=col("tipo"), iC=col("categoría"), iD=col("descripción"), iI=col("ingreso"), iG=col("gasto"), iA=col("ahorro"), iGr=col("grupo");
       if(iF<0||iT<0||iC<0){ toast("Ese archivo no parece un Excel exportado de Caila"); return; }
-      const seen=new Set(Object.values(state.months).flat().map(x=>[x.f,x.t,x.m,x.c,x.d||""].join("|")));
+      const seen=new Set(allItems().map(x=>[x.f,x.t+(x.k||""),x.m,x.c,x.d||""].join("|")));
       let added=0;
       rows.slice(1).forEach(r=>{
         const f=serialToF(r[iF]); const tipo=String(r[iT]||"").toLowerCase();
-        if(!f || (tipo!=="ingreso" && tipo!=="gasto")) return;
-        const t=tipo==="ingreso"?"i":"g";
-        const m=Math.round(Number(t==="i"?r[iI]:r[iG])||0);
-        const c=String(r[iC]||"Otros").trim(); const d=iD>=0?String(r[iD]||"").trim():"";
+        if(!f) return;
+        let t,k;
+        if(tipo==="ingreso") t="i";
+        else if(tipo==="gasto") t="g";
+        else if(tipo==="ahorro"){ t="a"; k="d"; }
+        else if(tipo==="retiro de ahorro"){ t="a"; k="r"; }
+        else return;
+        const raw = t==="i" ? r[iI] : t==="g" ? r[iG] : (iA>=0 ? r[iA] : 0);
+        const m=Math.abs(Math.round(Number(raw)||0));
+        const c=String(r[iC]||(t==="a"?"General":"Otros")).trim(); const d=iD>=0?String(r[iD]||"").trim():"";
         if(!m) return;
-        const key=[f,t,m,c,d].join("|"); if(seen.has(key)) return; seen.add(key);
+        const key=[f,t+(k||""),m,c,d].join("|"); if(seen.has(key)) return; seen.add(key);
         const mon=f.slice(0,7);
-        (state.months[mon]=state.months[mon]||[]).push({id:uidGen(),t,m,c,d,f});
-        if(!state.cats[t].includes(c)) state.cats[t].splice(Math.max(state.cats[t].length-1,0),0,c);
+        const item={id:uidGen(),t,m,c,d,f}; if(k) item.k=k;
+        (state.months[mon]=state.months[mon]||[]).push(item);
+        if(!state.cats[t].includes(c)){
+          state.cats[t].splice(Math.max(state.cats[t].length-1,0),0,c);
+          if(t==="g" && iGr>=0 && String(r[iGr]||"").trim().toLowerCase()==="fijo" && !isFixed(c)) state.cats.fijos.push(c);
+        }
         added++;
       });
       persist(); renderForm(); render();
@@ -361,6 +448,9 @@ section.block{margin-top:30px}
   function init(){
     const cached=lsLoad();
     if(cached){ state.months=cached.months||{}; if(cached.cats) state.cats=cached.cats; }
+    // Datos guardados con la versión anterior: agregar bolsillos y grupo de gastos fijos
+    if(!state.cats.a) state.cats.a=DEFAULT_CATS.a.slice();
+    if(!state.cats.fijos) state.cats.fijos=DEFAULT_FIJOS.slice();
     $("#date").value=today();
     render(); renderForm();
     $("#status").textContent="Tus datos se guardan en este celular. Exporta a Excel de vez en cuando como respaldo.";
@@ -378,9 +468,19 @@ section.block{margin-top:30px}
   }
 
   /* ---------- Formulario ---------- */
-  document.querySelectorAll(".toggle button").forEach(b=>b.addEventListener("click",()=>{
-    state.type=b.dataset.type; state.cat=null; renderForm();
+  document.querySelectorAll("#typeToggle button").forEach(b=>b.addEventListener("click",()=>{
+    state.type=b.dataset.type; state.cat=null; $("#newcat").classList.remove("show"); renderForm();
   }));
+  document.querySelectorAll("#akind button").forEach(b=>b.addEventListener("click",()=>{
+    state.akind=b.dataset.k; renderForm();
+  }));
+  $("#savAdd").addEventListener("click",()=>{
+    if(state.editing) resetForm();
+    state.type="a"; state.akind="d"; state.cat=null; $("#newcat").classList.remove("show");
+    renderForm();
+    $("#form").scrollIntoView({behavior: matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth", block:"start"});
+    $("#amount").focus({preventScroll:true});
+  });
   $("#amount").addEventListener("input",e=>{
     const digits=e.target.value.replace(/\D/g,"").replace(/^0+/,"").slice(0,12);
     e.target.value = digits ? Number(digits).toLocaleString("es-CO") : "";
@@ -391,8 +491,10 @@ section.block{margin-top:30px}
     const name=$("#newcatInput").value.trim();
     if(!name) return;
     const list=state.cats[state.type];
-    if(!list.some(c=>c.toLowerCase()===name.toLowerCase())) list.splice(Math.max(list.length-1,0),0,name);
+    const isNew=!list.some(c=>c.toLowerCase()===name.toLowerCase());
+    if(isNew) list.splice(Math.max(list.length-1,0),0,name);
     state.cat=list.find(c=>c.toLowerCase()===name.toLowerCase());
+    if(isNew && state.type==="g" && state.newGroup==="f" && !isFixed(state.cat)) state.cats.fijos.push(state.cat);
     $("#newcatInput").value=""; $("#newcat").classList.remove("show");
     persist("config"); renderForm();
   }
@@ -400,10 +502,17 @@ section.block{margin-top:30px}
   $("#save").addEventListener("click",()=>{
     const m=Number($("#amount").value.replace(/\D/g,""));
     if(!m){ toast("Escribe el monto"); $("#amount").focus(); return; }
-    if(!state.cat){ toast("Elige una categoría"); return; }
+    if(!state.cat){ toast(state.type==="a"?"Elige un bolsillo":"Elige una categoría"); return; }
     const f=$("#date").value||today();
     const wasEditing=!!state.editing;
     const item={ id: wasEditing ? state.editing.id : uidGen(), t:state.type, m, c:state.cat, d:$("#desc").value.trim(), f };
+    if(item.t==="a"){
+      item.k=state.akind;
+      if(item.k==="r"){
+        const have=pocketTotals(null, wasEditing?state.editing.id:null)[item.c]||0;
+        if(m>have){ toast("En "+item.c+" solo tienes "+money(Math.max(have,0))); return; }
+      }
+    }
     if(wasEditing){
       const oldMonth=state.editing.f.slice(0,7);
       state.months[oldMonth]=(state.months[oldMonth]||[]).filter(x=>x.id!==item.id);
@@ -412,7 +521,7 @@ section.block{margin-top:30px}
     const mon=f.slice(0,7);
     (state.months[mon]=state.months[mon]||[]).push(item);
     persist("m-"+mon);
-    toast(wasEditing? "Cambios guardados" : (state.type==="g"?"Gasto anotado":"Ingreso anotado"));
+    toast(wasEditing? "Cambios guardados" : ({g:"Gasto anotado", i:"Ingreso anotado", a: item.k==="r"?"Retiro anotado":"Ahorro guardado"})[item.t]);
     resetForm(!wasEditing);
     state.period={m:mon, h:halfOf(f)};
     render();
@@ -429,36 +538,60 @@ section.block{margin-top:30px}
 
   function resetForm(keepType){
     state.editing=null;
-    if(!keepType) state.type="g";
+    if(!keepType){ state.type="g"; state.akind="d"; }
     state.cat=null;
     $("#amount").value=""; $("#desc").value=""; $("#date").value=today();
     renderForm();
   }
   function startEdit(item){
-    state.editing=item; state.type=item.t; state.cat=item.c;
+    state.editing=item; state.type=item.t; state.cat=item.c; state.akind=item.k||"d";
     $("#amount").value=item.m.toLocaleString("es-CO"); $("#desc").value=item.d||""; $("#date").value=item.f;
     renderForm(); render();
     $("#form").scrollIntoView({behavior: matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth", block:"start"});
   }
 
   function renderForm(){
-    document.querySelectorAll(".toggle button").forEach(b=>b.setAttribute("aria-pressed", String(b.dataset.type===state.type)));
+    document.querySelectorAll("#typeToggle button").forEach(b=>b.setAttribute("aria-pressed", String(b.dataset.type===state.type)));
+    const isSav=state.type==="a";
+    $("#akind").classList.toggle("hidden",!isSav);
+    document.querySelectorAll("#akind button").forEach(b=>b.setAttribute("aria-pressed", String(b.dataset.k===state.akind)));
+    $("#catLabel").textContent= isSav ? "Bolsillo" : "Categoría";
+
     const chips=$("#chips"); chips.innerHTML="";
     const list=state.cats[state.type].slice();
     if(state.cat && !list.includes(state.cat)) list.push(state.cat);
-    list.forEach(c=>{
+    const mkChip=c=>{
       const b=document.createElement("button"); b.type="button"; b.className="chip"; b.textContent=c;
       b.setAttribute("aria-pressed", String(state.cat===c));
       b.addEventListener("click",()=>{ state.cat=c; renderForm(); });
-      chips.appendChild(b);
-    });
-    const add=document.createElement("button"); add.type="button"; add.className="chip add"; add.textContent="+ Otra";
-    add.addEventListener("click",()=>{ $("#newcat").classList.toggle("show"); $("#newcatInput").focus(); });
-    chips.appendChild(add);
+      return b;
+    };
+    const mkAdd=g=>{
+      const add=document.createElement("button"); add.type="button"; add.className="chip add"; add.textContent="+ Otra";
+      const ph = state.type==="g" ? (g==="f"?"Nueva categoría fija":"Nueva categoría variable")
+               : isSav ? "Nombre del bolsillo" : "Nombre de la categoría";
+      add.setAttribute("aria-label", state.type==="g" ? "Agregar "+ph.toLowerCase() : (isSav?"Agregar bolsillo":"Agregar categoría"));
+      add.addEventListener("click",()=>{
+        const nc=$("#newcat"), same=state.newGroup===g;
+        state.newGroup=g; $("#newcatInput").placeholder=ph;
+        nc.classList.toggle("show", !(nc.classList.contains("show") && same));
+        if(nc.classList.contains("show")) $("#newcatInput").focus();
+      });
+      return add;
+    };
+    const mkRow=(cs,g)=>{ const row=document.createElement("div"); row.className="chips"; cs.forEach(c=>row.appendChild(mkChip(c))); row.appendChild(mkAdd(g)); return row; };
+    if(state.type==="g"){
+      [["f","Gastos fijos"],["v","Gastos variables"]].forEach(([g,lbl])=>{
+        const box=document.createElement("div"); box.className="chipgroup";
+        const h=document.createElement("div"); h.className="gl"; h.textContent=lbl;
+        box.append(h, mkRow(list.filter(c=>(isFixed(c)?"f":"v")===g), g));
+        chips.appendChild(box);
+      });
+    } else chips.appendChild(mkRow(list,"v"));
     renderCatEdit();
     const ed=!!state.editing;
     $("#formTitle").textContent= ed? "Editar movimiento" : "Anotar movimiento";
-    $("#save").textContent= ed? "Guardar cambios" : "Anotar";
+    $("#save").textContent= ed? "Guardar cambios" : (isSav ? (state.akind==="r"?"Sacar de ahorros":"Guardar en ahorros") : "Anotar");
     $("#del").classList.toggle("hidden",!ed); $("#cancel").classList.toggle("hidden",!ed);
   }
 
@@ -480,18 +613,46 @@ section.block{margin-top:30px}
     const items=periodItems(m,h).sort((a,b)=> b.f.localeCompare(a.f) || b.id.localeCompare(a.id));
     const inc=items.filter(x=>x.t==="i").reduce((s,x)=>s+x.m,0);
     const out=items.filter(x=>x.t==="g").reduce((s,x)=>s+x.m,0);
-    const bal=inc-out;
+    const savs=items.filter(x=>x.t==="a");
+    const savNet=sumBy(savs,savDelta);
+    const bal=inc-out-savNet;
     $("#balance").textContent=money(bal); $("#balance").classList.toggle("neg",bal<0);
-    $("#sumIn").textContent=money(inc); $("#sumOut").textContent=money(out);
+    $("#sumIn").textContent=money(inc); $("#sumOut").textContent=money(out); $("#sumSav").textContent=money(savNet);
     const isNow = m===ym(new Date()) && h===(new Date().getDate()<=15?1:2);
     $("#balanceLbl").textContent = isNow ? "Te queda esta quincena" : "Balance de la quincena";
+
+    // Ahorros: acumulado de todas las quincenas hasta el final de la que se está viendo
+    const pockets=Object.entries(pocketTotals(periodEnd(m,h))).filter(([,v])=>v!==0).sort((a,b)=>b[1]-a[1]);
+    const savTotal=pockets.reduce((s,[,v])=>s+v,0);
+    $("#savLbl").textContent = isNow ? "Llevas ahorrado" : "Ahorrado hasta esta quincena";
+    $("#savTotal").textContent=money(savTotal); $("#savTotal").classList.toggle("neg",savTotal<0);
+    const dep=sumBy(savs.filter(x=>x.k!=="r"),x=>x.m), ret=sumBy(savs.filter(x=>x.k==="r"),x=>x.m);
+    const parts=[]; if(dep) parts.push("guardaste "+money(dep)); if(ret) parts.push("sacaste "+money(ret));
+    $("#savQ").textContent = parts.length ? "En esta quincena "+parts.join(" y ")+"." : "En esta quincena no has guardado nada.";
+    const pk=$("#savPockets"); pk.innerHTML="";
+    pk.classList.toggle("hidden", pockets.length<2);
+    pockets.forEach(([c,v])=>{
+      const r=document.createElement("div"); r.className="pk";
+      const l=document.createElement("span"); l.textContent=c;
+      const a=document.createElement("b"); a.textContent=money(v);
+      r.append(l,a); pk.appendChild(r);
+    });
 
     const byCat={}; items.filter(x=>x.t==="g").forEach(x=>byCat[x.c]=(byCat[x.c]||0)+x.m);
     const cats=Object.entries(byCat).sort((a,b)=>b[1]-a[1]);
     const catsEl=$("#cats"); catsEl.innerHTML="";
     $("#catsBlock").classList.toggle("hidden",!cats.length);
     const max=cats.length?cats[0][1]:1;
-    cats.forEach(([c,v])=>{
+    [["f","Gastos fijos"],["v","Gastos variables"]].forEach(([g,lbl])=>{
+      const cs=cats.filter(([c])=>(isFixed(c)?"f":"v")===g);
+      if(!cs.length) return;
+      const sub=cs.reduce((s,[,v])=>s+v,0);
+      const gh=document.createElement("div"); gh.className="grp";
+      const gl=document.createElement("span"); gl.textContent=lbl;
+      const gv=document.createElement("b"); gv.textContent=money(sub)+" ";
+      const gp=document.createElement("small"); gp.textContent=Math.round(sub/out*100)+"%"; gv.appendChild(gp);
+      gh.append(gl,gv); catsEl.appendChild(gh);
+    cs.forEach(([c,v])=>{
       const d=document.createElement("div"); d.className="cat";
       const row=document.createElement("div"); row.className="row";
       const l=document.createElement("span"); l.textContent=c;
@@ -499,8 +660,9 @@ section.block{margin-top:30px}
       const p=document.createElement("small"); p.textContent=Math.round(v/out*100)+"%"; r.appendChild(p);
       row.append(l,r);
       const bar=document.createElement("div"); bar.className="bar";
-      const i=document.createElement("i"); i.style.width=(v/max*100)+"%"; bar.appendChild(i);
+      const i=document.createElement("i"); i.className=g; i.style.width=(v/max*100)+"%"; bar.appendChild(i);
       d.append(row,bar); catsEl.appendChild(d);
+    });
     });
 
     const list=$("#list"); list.innerHTML="";
@@ -520,12 +682,20 @@ section.block{margin-top:30px}
       const b=document.createElement("button"); b.type="button"; b.className="mov";
       if(state.editing && state.editing.id===x.id) b.classList.add("editing");
       const w=document.createElement("span"); w.className="what";
-      const t=document.createElement("b"); t.textContent=x.c; w.appendChild(t);
+      const t=document.createElement("b");
+      if(x.t==="a"){
+        t.textContent=(x.k==="r"?"Retiro de ":"Ahorro en ")+x.c;
+      } else {
+        t.textContent=x.c;
+        if(x.t==="g"){ const tg=document.createElement("em"); tg.className="tag"; tg.textContent=isFixed(x.c)?"fijo":"variable"; t.appendChild(tg); }
+      }
+      w.appendChild(t);
       if(x.d){ const s=document.createElement("small"); s.textContent=x.d; w.appendChild(s); }
-      const a=document.createElement("span"); a.className="amt "+(x.t==="i"?"in":"out");
-      a.textContent=(x.t==="i"?"+ ":"− ")+money(x.m);
+      const a=document.createElement("span");
+      if(x.t==="a"){ a.className="amt sav"; a.textContent=(x.k==="r"?"− ":"+ ")+money(x.m); }
+      else { a.className="amt "+(x.t==="i"?"in":"out"); a.textContent=(x.t==="i"?"+ ":"− ")+money(x.m); }
       b.append(w,a);
-      b.setAttribute("aria-label",(x.t==="i"?"Ingreso ":"Gasto ")+x.c+" "+money(x.m)+". Editar");
+      b.setAttribute("aria-label",tipoLabel(x)+(x.t==="g"?(isFixed(x.c)?" fijo ":" variable "):" ")+x.c+" "+money(x.m)+". Editar");
       b.addEventListener("click",()=>startEdit(x));
       list.appendChild(b);
     });
@@ -540,48 +710,68 @@ section.block{margin-top:30px}
     if(!all.length){ toast("Todavía no hay movimientos para exportar"); return; }
     const COP='"$"#,##0';
 
-    const ws1=XLSX.utils.aoa_to_sheet([["Fecha","Quincena","Tipo","Categoría","Descripción","Ingreso","Gasto"]]);
+    const ws1=XLSX.utils.aoa_to_sheet([["Fecha","Quincena","Tipo","Grupo","Categoría","Descripción","Ingreso","Gasto","Ahorro"]]);
     all.forEach((x,i)=>{
       const r=i+2;
       ws1["A"+r]={t:"n",v:serial(x.f),z:"dd/mm/yyyy"};
       ws1["B"+r]={t:"s",v:periodLabel(x.f.slice(0,7),halfOf(x.f))};
-      ws1["C"+r]={t:"s",v:x.t==="i"?"Ingreso":"Gasto"};
-      ws1["D"+r]={t:"s",v:x.c};
-      ws1["E"+r]={t:"s",v:x.d||""};
-      if(x.t==="i") ws1["F"+r]={t:"n",v:x.m,z:COP}; else ws1["G"+r]={t:"n",v:x.m,z:COP};
+      ws1["C"+r]={t:"s",v:tipoLabel(x)};
+      ws1["D"+r]={t:"s",v:x.t==="g"?(isFixed(x.c)?"Fijo":"Variable"):""};
+      ws1["E"+r]={t:"s",v:x.c};
+      ws1["F"+r]={t:"s",v:x.d||""};
+      if(x.t==="i") ws1["G"+r]={t:"n",v:x.m,z:COP};
+      else if(x.t==="g") ws1["H"+r]={t:"n",v:x.m,z:COP};
+      else ws1["I"+r]={t:"n",v:savDelta(x),z:COP};
     });
     const last=all.length+1;
-    ws1["E"+(last+2)]={t:"s",v:"Total"};
-    ws1["F"+(last+2)]={t:"n",f:`SUM(F2:F${last})`,z:COP};
-    ws1["G"+(last+2)]={t:"n",f:`SUM(G2:G${last})`,z:COP};
-    ws1["!ref"]="A1:G"+(last+2);
-    ws1["!cols"]=[{wch:12},{wch:18},{wch:10},{wch:16},{wch:32},{wch:14},{wch:14}];
+    ws1["F"+(last+2)]={t:"s",v:"Total"};
+    ["G","H","I"].forEach(c=>{ ws1[c+(last+2)]={t:"n",f:`SUM(${c}2:${c}${last})`,z:COP}; });
+    ws1["!ref"]="A1:I"+(last+2);
+    ws1["!cols"]=[{wch:12},{wch:18},{wch:16},{wch:10},{wch:16},{wch:32},{wch:14},{wch:14},{wch:14}];
 
     const periods=[];
     Object.keys(state.months).sort().forEach(m=>[1,2].forEach(h=>{ const it=periodItems(m,h); if(it.length) periods.push({m,h,it}); }));
 
-    const rows2=[["Quincena","Ingresos","Gastos","Balance"]];
+    const rows2=[["Quincena","Ingresos","Gastos fijos","Gastos variables","Gastos totales","Ahorro neto","Balance","Ahorro acumulado"]];
+    let acc=0;
     periods.forEach(({m,h,it})=>{
-      const inc=it.filter(x=>x.t==="i").reduce((s,x)=>s+x.m,0), out=it.filter(x=>x.t==="g").reduce((s,x)=>s+x.m,0);
-      rows2.push([periodLabel(m,h),inc,out,inc-out]);
+      const g=it.filter(x=>x.t==="g");
+      const inc=sumBy(it.filter(x=>x.t==="i"),x=>x.m);
+      const fij=sumBy(g.filter(x=>isFixed(x.c)),x=>x.m), vari=sumBy(g.filter(x=>!isFixed(x.c)),x=>x.m);
+      const sav=sumBy(it.filter(x=>x.t==="a"),savDelta); acc+=sav;
+      rows2.push([periodLabel(m,h),inc,fij,vari,fij+vari,sav,inc-fij-vari-sav,acc]);
     });
     const ws2=XLSX.utils.aoa_to_sheet(rows2);
-    for(let r=2;r<=rows2.length;r++) ["B","C","D"].forEach(c=>{ if(ws2[c+r]) ws2[c+r].z=COP; });
-    ws2["!cols"]=[{wch:18},{wch:14},{wch:14},{wch:14}];
+    for(let r=2;r<=rows2.length;r++) ["B","C","D","E","F","G","H"].forEach(c=>{ if(ws2[c+r]) ws2[c+r].z=COP; });
+    ws2["!cols"]=[{wch:18},{wch:14},{wch:14},{wch:16},{wch:15},{wch:14},{wch:14},{wch:17}];
 
-    const rows3=[["Quincena","Categoría","Total gastado"]];
+    const rows3=[["Quincena","Grupo","Categoría","Total gastado"]];
     periods.forEach(({m,h,it})=>{
       const by={}; it.filter(x=>x.t==="g").forEach(x=>by[x.c]=(by[x.c]||0)+x.m);
-      Object.entries(by).sort((a,b)=>b[1]-a[1]).forEach(([c,v])=>rows3.push([periodLabel(m,h),c,v]));
+      Object.entries(by).sort((a,b)=>(isFixed(b[0])-isFixed(a[0])) || b[1]-a[1])
+        .forEach(([c,v])=>rows3.push([periodLabel(m,h),isFixed(c)?"Fijo":"Variable",c,v]));
     });
     const ws3=XLSX.utils.aoa_to_sheet(rows3);
-    for(let r=2;r<=rows3.length;r++) if(ws3["C"+r]) ws3["C"+r].z=COP;
-    ws3["!cols"]=[{wch:18},{wch:18},{wch:16}];
+    for(let r=2;r<=rows3.length;r++) if(ws3["D"+r]) ws3["D"+r].z=COP;
+    ws3["!cols"]=[{wch:18},{wch:10},{wch:18},{wch:16}];
+
+    const pk=Object.entries(pocketTotals()).filter(([,v])=>v!==0).sort((a,b)=>b[1]-a[1]);
+    const rows4=[["Bolsillo","Total ahorrado"]].concat(pk);
+    const ws4=XLSX.utils.aoa_to_sheet(rows4);
+    for(let r=2;r<=rows4.length;r++) if(ws4["B"+r]) ws4["B"+r].z=COP;
+    if(pk.length){
+      const tr=rows4.length+2;
+      ws4["A"+tr]={t:"s",v:"Total"};
+      ws4["B"+tr]={t:"n",f:`SUM(B2:B${rows4.length})`,z:COP};
+      ws4["!ref"]="A1:B"+tr;
+    }
+    ws4["!cols"]=[{wch:18},{wch:16}];
 
     const wb=XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb,ws1,"Movimientos");
     XLSX.utils.book_append_sheet(wb,ws2,"Resumen por quincena");
     XLSX.utils.book_append_sheet(wb,ws3,"Gastos por categoría");
+    if(pk.length) XLSX.utils.book_append_sheet(wb,ws4,"Ahorros");
     const buf=XLSX.write(wb,{bookType:"xlsx",type:"array"});
     const name="caila-"+today()+".xlsx";
     const blob=new Blob([buf],{type:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"});
